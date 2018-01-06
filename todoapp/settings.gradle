@@ -1,1 +1,4 @@
-include ':app'
+include ':app', ':Lib_Glide4', ':Lib_Okhttp3'
+
+project(':Lib_Glide4').projectDir = new File('Lib_third_party/Lib_Glide4.git')
+project(':Lib_Okhttp3').projectDir = new File('Lib_third_party/Lib_Okhttp3.git')

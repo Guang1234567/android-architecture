@@ -1,0 +1,6 @@
+[submodule "todoapp/Lib_third_party/Lib_Okhttp3.git"]
+	path = todoapp/Lib_third_party/Lib_Okhttp3.git
+	url = https://github.com/Guang1234567/Lib_Okhttp3.git
+[submodule "todoapp/Lib_third_party/Lib_Glide4.git"]
+	path = todoapp/Lib_third_party/Lib_Glide4.git
+	url = https://github.com/Guang1234567/Lib_Glide4.git
