@@ -47,5 +47,6 @@ ext {
     sqlbriteVersion = '2.0.0'
     okhttpVersion = '3.9.1'
     glideVersion = '4.4.0'
+    gifDrawableVersion = '1.2.10'
     stringFormatVersion = '1.0.1'
 }

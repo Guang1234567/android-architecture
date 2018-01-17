@@ -23,12 +23,16 @@ import android.support.annotation.VisibleForTesting;
 import com.example.android.architecture.blueprints.todoapp.data.Task;
 import com.google.common.base.Optional;
 
+import org.reactivestreams.Publisher;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -110,7 +114,17 @@ public class TasksRepository implements TasksDataSource {
         Flowable<List<Task>> remoteTasks = getAndSaveRemoteTasks();
 
         if (mCacheIsDirty) {
-            return remoteTasks;
+            Flowable<List<Task>> localTasks = Flowable.fromCallable(() -> {
+                List<Task> localTasksList = getAndCacheLocalTasks().blockingFirst();
+                return localTasksList;
+            });
+
+            return Flowable.concat(remoteTasks, localTasks)
+                    .filter(tasks -> tasks != null && !tasks.isEmpty())
+                    .flatMap((tasks) -> {return Flowable.fromIterable(tasks);})
+                    .distinct()
+                    .toList()
+                    .toFlowable();
         } else {
             // Query the local storage if available. If not, query the network.
             Flowable<List<Task>> localTasks = getAndCacheLocalTasks();

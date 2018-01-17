@@ -4,16 +4,21 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.android.thirdparty.lib.okhttp3.OkHttpClientGenerator;
 import com.android.thirdparty.lib.okhttp3.listener.impl.UIProgressListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.android.architecture.blueprints.todoapp.config.TodoGlide;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -24,7 +29,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * @author Administrator
+ * @author Guang1234567
  * @date 2018/1/3 15:28
  */
 
@@ -80,7 +85,18 @@ public class TodoApplication extends Application {
 
         TodoGlide.with(this) //getContext() reture ApplicationContext, no memory leak.
                 .downloadOnly()
-                .load("wwwfdsf")
+                .load("https://www.baidu.com")
+                .listener(new RequestListener<File>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<File> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(File resource, Object model, Target<File> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                })
                 .submit();
 
     }
